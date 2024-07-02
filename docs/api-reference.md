@@ -312,10 +312,14 @@ _Appears in:_
 
 Package v1alpha1 contains API Schema definitions for the configuration.konghq.com v1alpha1 API group.
 
+TODO(pmalek): this is copy paste from KGO.
+If we decide to move forward with reusing KIC CRDs this will live here.
+
 - [IngressClassParameters](#ingressclassparameters)
 - [KongCustomEntity](#kongcustomentity)
 - [KongLicense](#konglicense)
 - [KongVault](#kongvault)
+- [Service](#service)
 ### IngressClassParameters
 
 
@@ -380,6 +384,22 @@ See: https://docs.konghq.com/gateway/latest/kong-enterprise/secrets-management/
 | `kind` _string_ | `KongVault`
 | `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
 | `spec` _[KongVaultSpec](#kongvaultspec)_ |  |
+
+
+
+### Service
+
+
+Service is the schema for Services API which defines a Kong Service
+
+<!-- service description placeholder -->
+
+| Field | Description |
+| --- | --- |
+| `apiVersion` _string_ | `configuration.konghq.com/v1alpha1`
+| `kind` _string_ | `Service`
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |
+| `spec` _[ServiceSpec](#servicespec)_ |  |
 
 
 
@@ -509,6 +529,23 @@ _Appears in:_
 
 
 
+#### KonnectEntityStatus
+
+
+
+
+
+
+| Field | Description |
+| --- | --- |
+| `id` _string_ | KonnectID is the unique identifier of the Konnect entity as assigned by Konnect API. If it's unset (empty string), it means the Konnect entity hasn't been created yet. |
+| `serverURL` _string_ | ServerURL is the URL of the Konnect server in which the entity exists. |
+| `conditions` _[Condition](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#condition-v1-meta) array_ | Conditions describe the status of the Konnect entity. |
+
+
+_Appears in:_
+- [ServiceStatus](#servicestatus)
+
 #### Namespace
 _Underlying type:_ `string`
 
@@ -552,6 +589,37 @@ ObjectReference defines reference of a kubernetes object.
 
 _Appears in:_
 - [KongCustomEntitySpec](#kongcustomentityspec)
+
+#### ServiceSpec
+
+
+ServiceSpec defines specification of a Kong Service.
+
+
+
+| Field | Description |
+| --- | --- |
+| `url` _string_ | Helper field to set `protocol`, `host`, `port` and `path` using a URL. This field is write-only and is not returned in responses. |
+| `ca_certificates` _string array_ | Array of `CA Certificate` object UUIDs that are used to build the trust store while verifying upstream server's TLS certificate. If set to `null` when Nginx default is respected. If default CA list in Nginx are not specified and TLS verification is enabled, then handshake with upstream server will always fail (because no CA are trusted). |
+| `connect_timeout` _integer_ | The timeout in milliseconds for establishing a connection to the upstream server. |
+| `enabled` _boolean_ | Whether the Service is active. If set to `false`, the proxy behavior will be as if any routes attached to it do not exist (404). Default: `true`. |
+| `host` _string_ | The host of the upstream server. Note that the host value is case sensitive. |
+| `name` _string_ | The Service name. |
+| `path` _string_ | The path to be used in requests to the upstream server. |
+| `port` _integer_ | The upstream server port. |
+| `protocol` _[Protocol](#protocol)_ | The protocol used to communicate with the upstream. |
+| `read_timeout` _integer_ | The timeout in milliseconds between two successive read operations for transmitting a request to the upstream server. |
+| `retries` _integer_ | The number of retries to execute upon failure to proxy. |
+| `tags` _string array_ | An optional set of strings associated with the Service for grouping and filtering. |
+| `tls_verify` _boolean_ | Whether to enable verification of upstream server TLS certificate. If set to `null`, then the Nginx default is respected. |
+| `tls_verify_depth` _integer_ | Maximum depth of chain while verifying Upstream server's TLS certificate. If set to `null`, then the Nginx default is respected. |
+| `write_timeout` _integer_ | The timeout in milliseconds between two successive write operations for transmitting a request to the upstream server. |
+
+
+_Appears in:_
+- [Service](#service)
+
+
 
 
 ## configuration.konghq.com/v1beta1

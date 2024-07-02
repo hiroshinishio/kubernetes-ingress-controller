@@ -25,3 +25,5 @@ type KongCustomEntityExpansion interface{}
 type KongLicenseExpansion interface{}
 
 type KongVaultExpansion interface{}
+
+type ServiceExpansion interface{}
