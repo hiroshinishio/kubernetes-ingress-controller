@@ -23,6 +23,14 @@ spec:
       jsonPath: .spec.procol
       name: Protocol
       type: string
+    - description: The Resource is Programmed on Konnect
+      jsonPath: .status.conditions[?(@.type=='Programmed')].status
+      name: Programmed
+      type: string
+    - description: Konnect ID
+      jsonPath: .status.id
+      name: ID
+      type: string
     name: v1alpha1
     schema:
       openAPIV3Schema:
@@ -58,18 +66,36 @@ spec:
                 items:
                   type: string
                 type: array
-              client_certificate:
-                description: Certificate to be used as client certificate while TLS
-                  handshaking to the upstream server.
-                properties:
-                  id:
-                    type: string
-                type: object
               connect_timeout:
                 description: The timeout in milliseconds for establishing a connection
                   to the upstream server.
                 format: int64
                 type: integer
+              controlPlaneRef:
+                properties:
+                  kic:
+                    description: TODO(pmalek)
+                    type: object
+                  konnectID:
+                    description: TODO(pmalek)
+                    type: string
+                  konnectNamespacedRef:
+                    properties:
+                      name:
+                        type: string
+                      namespace:
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  type:
+                    description: |-
+                      Type can be one of:
+                      - KonnectID
+                      - KonnectNamespacedRef
+                      - KIC
+                    type: string
+                type: object
               enabled:
                 description: 'Whether the Service is active. If set to `false`, the
                   proxy behavior will be as if any routes attached to it do not exist
@@ -79,6 +105,19 @@ spec:
                 description: The host of the upstream server. Note that the host value
                   is case sensitive.
                 type: string
+              konnectAPIAuthConfigurationRef:
+                properties:
+                  name:
+                    description: Name is the name of the KonnectAPIAuthConfiguration
+                      resource.
+                    type: string
+                  namespace:
+                    description: Namespace is the namespace of the KonnectAPIAuthConfiguration
+                      resource.
+                    type: string
+                required:
+                - name
+                type: object
               name:
                 description: The Service name.
                 type: string
@@ -220,6 +259,8 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              controlPlaneID:
+                type: string
               id:
                 description: |-
                   KonnectID is the unique identifier of the Konnect entity as assigned by Konnect API.
@@ -233,9 +274,6 @@ spec:
         required:
         - spec
         type: object
-        x-kubernetes-validations:
-        - message: The spec.host is required
-          rule: '!has(self.spec.host)'
     served: true
     storage: true
     subresources:
