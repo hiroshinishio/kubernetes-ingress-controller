@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/go-logr/logr"
+	"github.com/kong/kubernetes-ingress-controller/v3/internal/logging"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	k8stypes "k8s.io/apimachinery/pkg/types"
@@ -222,7 +223,7 @@ func resourceErrorsToResourceFailures(resourceErrors []ResourceError, logger log
 			},
 		}
 		for problemSource, problem := range ee.Problems {
-			logger.V(util.DebugLevel).Info("Adding failure", "resource_name", ee.Name, "source", problemSource, "problem", problem)
+			logger.V(logging.DebugLevel).Info("Adding failure", "resource_name", ee.Name, "source", problemSource, "problem", problem)
 			resourceFailure, failureCreateErr := failures.NewResourceFailure(
 				fmt.Sprintf("invalid %s: %s", problemSource, problem),
 				&obj,

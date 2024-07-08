@@ -8,6 +8,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/kong/go-kong/kong"
+	"github.com/kong/kubernetes-ingress-controller/v3/internal/logging"
 	"github.com/samber/lo"
 	corev1 "k8s.io/api/core/v1"
 	netv1 "k8s.io/api/networking/v1"
@@ -462,7 +463,7 @@ func isRemotePluginReferenceAllowed(log logr.Logger, s store.Storer, r pluginRef
 		},
 	}
 
-	log.V(util.DebugLevel).Info("requested grant to plugins",
+	log.V(logging.DebugLevel).Info("requested grant to plugins",
 		"from-namespace", r.Referer.GetNamespace(),
 		"from-group", r.Referer.GetObjectKind().GroupVersionKind().Group,
 		"from-kind", r.Referer.GetObjectKind().GroupVersionKind().Kind,

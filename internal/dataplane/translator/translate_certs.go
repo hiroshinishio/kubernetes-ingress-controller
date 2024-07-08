@@ -9,6 +9,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/kong/go-kong/kong"
+	"github.com/kong/kubernetes-ingress-controller/v3/internal/logging"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
@@ -62,7 +63,7 @@ func (t *Translator) getGatewayCerts() []certWrapper {
 		for _, listener := range gateway.Spec.Listeners {
 			status, ok := statuses[listener.Name]
 			if !ok {
-				logger.V(util.DebugLevel).Info("Listener missing status information",
+				logger.V(logging.DebugLevel).Info("Listener missing status information",
 					"gateway", gateway.Name,
 					"listener", listener.Name,
 					"listener_protocol", listener.Protocol,

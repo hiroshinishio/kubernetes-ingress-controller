@@ -12,9 +12,9 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/kong/go-database-reconciler/pkg/file"
+	"github.com/kong/kubernetes-ingress-controller/v3/internal/logging"
 
 	"github.com/kong/kubernetes-ingress-controller/v3/internal/dataplane/fallback"
-	"github.com/kong/kubernetes-ingress-controller/v3/internal/util"
 )
 
 const (
@@ -138,7 +138,7 @@ func (s *Server) receiveConfig(ctx context.Context) {
 				s.logger.Error(err, "Shutting down diagnostic config collection: context completed with error")
 				return
 			}
-			s.logger.V(util.InfoLevel).Info("Shutting down diagnostic config collection: context completed")
+			s.logger.V(logging.InfoLevel).Info("Shutting down diagnostic config collection: context completed")
 			return
 		}
 	}

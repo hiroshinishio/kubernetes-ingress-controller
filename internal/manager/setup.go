@@ -11,6 +11,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/go-logr/zapr"
 	"github.com/kong/go-database-reconciler/pkg/cprint"
+	"github.com/kong/kubernetes-ingress-controller/v3/internal/logging"
 	"github.com/samber/mo"
 	corev1 "k8s.io/api/core/v1"
 	k8stypes "k8s.io/apimachinery/pkg/types"
@@ -35,7 +36,6 @@ import (
 	"github.com/kong/kubernetes-ingress-controller/v3/internal/license"
 	"github.com/kong/kubernetes-ingress-controller/v3/internal/manager/scheme"
 	"github.com/kong/kubernetes-ingress-controller/v3/internal/store"
-	"github.com/kong/kubernetes-ingress-controller/v3/internal/util"
 	"github.com/kong/kubernetes-ingress-controller/v3/internal/util/kubernetes/object/status"
 )
 
@@ -45,7 +45,7 @@ import (
 
 // SetupLoggers sets up the loggers for the controller manager.
 func SetupLoggers(c *Config, output io.Writer) (logr.Logger, error) {
-	zapBase, err := util.MakeLogger(c.LogLevel, c.LogFormat, output)
+	zapBase, err := logging.MakeLogger(c.LogLevel, c.LogFormat, output)
 	if err != nil {
 		return logr.Logger{}, fmt.Errorf("failed to make logger: %w", err)
 	}

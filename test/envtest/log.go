@@ -6,13 +6,12 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/go-logr/zapr"
+	"github.com/kong/kubernetes-ingress-controller/v3/internal/logging"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zaptest/observer"
 	ctrl "sigs.k8s.io/controller-runtime"
-
-	"github.com/kong/kubernetes-ingress-controller/v3/internal/util"
 )
 
 type LogsObserver interface {
@@ -41,7 +40,7 @@ func DumpLogsIfTestFailed(t *testing.T, logs LogsObserver) {
 		return
 	}
 
-	encoder, err := util.GetZapEncoding("text")
+	encoder, err := logging.GetZapEncoding("text")
 	require.NoError(t, err)
 
 	t.Logf("Test %s failed: dumping controller logs\n", t.Name())
