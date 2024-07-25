@@ -189,7 +189,10 @@ func newMockUpdateStrategyResolver(t *testing.T) *mockUpdateStrategyResolver {
 	}
 }
 
-func (f *mockUpdateStrategyResolver) ResolveUpdateStrategy(c sendconfig.UpdateClient) sendconfig.UpdateStrategy {
+func (f *mockUpdateStrategyResolver) ResolveUpdateStrategy(
+	c sendconfig.UpdateClient,
+	diagnostics *diagnostics.ClientDiagnostic,
+) sendconfig.UpdateStrategy {
 	f.lock.Lock()
 	defer f.lock.Unlock()
 
